@@ -1,0 +1,7 @@
+asgiref==3.9.1
+django==5.2.5
+django-picklefield==3.3
+django-q2==1.8.0
+python-dotenv==1.1.1
+sqlparse==0.5.3
+whitenoise==6.9.0

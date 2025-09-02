@@ -24,7 +24,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: liuli01/taobao_sms2
+          images: liuli01/job_admin
           tags: |
             type=ref,event=branch
             type=ref,event=tag
