@@ -11,6 +11,7 @@ services:
       - 8000:8000
     environment:
       - APP_MODE=web
+      - DB_ENGINE=django.db.backends.postgresql
       - DB_NAME=postgres
       - DB_USER=postgres
       - DB_PASSWORD=postgres
@@ -33,6 +34,7 @@ services:
       - app:/app
     environment:
       - APP_MODE=worker
+      - DB_ENGINE=django.db.backends.postgresql
       - DB_NAME=postgres
       - DB_USER=postgres
       - DB_PASSWORD=postgres
