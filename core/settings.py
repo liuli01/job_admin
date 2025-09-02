@@ -142,67 +142,43 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 SITE_ID = 1
 
 
-LOG_DIR = os.path.join(BASE_DIR, 'logs')
+# 确保日志目录存在
+LOG_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'logs')
 os.makedirs(LOG_DIR, exist_ok=True)
-# Logging configuration
+
+# 日志配置
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
-            'style': '{',
-        },
-        'simple': {
-            'format': '{levelname} {message}',
-            'style': '{',
-        },
-        'datetime': {
-            'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s',
-            'datefmt': '%Y-%m-%d %H:%M:%S',
-        },
-    },
     'handlers': {
         'console': {
-            'level': 'DEBUG',
             'class': 'logging.StreamHandler',
-            'formatter': 'simple',
         },
         'file': {
-            'level': 'INFO',
-            'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': LOG_DIR / 'django.log',
-            'when': 'midnight',
-            'backupCount': 30,
-            'formatter': 'datetime',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': f'{LOG_DIR}/django.log',
+            'maxBytes': 1024 * 1024 * 5,  # 日志文件最大为 5MB
+            'backupCount': 5,  # 最多保留 5 个备份文件
+            'formatter': 'verbose',
         },
-        'task_file': {
-            'level': 'INFO',
-            'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': LOG_DIR / 'tasks.log',
-            'when': 'midnight',
-            'backupCount': 30,
-            'formatter': 'datetime',
+    },
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(funcName)s %(lineno)d %(process)d %(thread)d %(message)s'
         },
+    },
+    'root': {
+        'handlers': ['file'],
+        'level': 'DEBUG',
     },
     'loggers': {
         'django': {
-            'handlers': ['console', 'file'],
+            'handlers': ['file','console'],
             'level': 'INFO',
-            'propagate': True,
-        },
-        'tasks': {
-            'handlers': ['task_file'],
-            'level': 'INFO',
-            'propagate': True,
-        },
-        'chroniker': {
-            'handlers': ['task_file'],
-            'level': 'INFO',
-            'propagate': True,
+            'propagate': False,
         },
     },
-}
+} 
 
 # Django-Q2 配置
 Q_CLUSTER = {
