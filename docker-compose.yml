@@ -5,12 +5,12 @@ services:
     build: .
     restart: unless-stopped
     container_name: task_web
-    command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - app:/app
     ports:
-      - "8000:8000"
+      - 8000:8000
     environment:
+      - APP_MODE=web
       - DB_NAME=postgres
       - DB_USER=postgres
       - DB_PASSWORD=postgres
@@ -29,10 +29,10 @@ services:
     build: .
     restart: unless-stopped
     container_name: task_worker
-    command: python manage.py qcluster
     volumes:
       - app:/app
     environment:
+      - APP_MODE=worker
       - DB_NAME=postgres
       - DB_USER=postgres
       - DB_PASSWORD=postgres
@@ -44,8 +44,6 @@ services:
       - Q_TIMEOUT=90
       - Q_RETRY=120
       - Q_QUEUE_LIMIT=50
-    depends_on:
-      - web
 
 
 volumes:
