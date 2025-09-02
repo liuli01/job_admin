@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    restart: unless-stopped
+    container_name: task_web
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - app:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_NAME=postgres
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DEBUG=True
+      - ALLOWED_HOSTS=*
+      - Q_WORKERS=4
+      - Q_TIMEOUT=90
+      - Q_RETRY=120
+      - Q_QUEUE_LIMIT=50
+    depends_on:
+      - worker
+
+  worker:
+    build: .
+    restart: unless-stopped
+    container_name: task_worker
+    command: python manage.py qcluster
+    volumes:
+      - app:/app
+    environment:
+      - DB_NAME=postgres
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DEBUG=True
+      - ALLOWED_HOSTS=*
+      - Q_WORKERS=4
+      - Q_TIMEOUT=90
+      - Q_RETRY=120
+      - Q_QUEUE_LIMIT=50
+    depends_on:
+      - web
+
+
+volumes:
+  app:
