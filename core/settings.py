@@ -141,6 +141,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Required for django.contrib.sites
 SITE_ID = 1
 
+
+LOG_DIR = os.path.join(BASE_DIR, 'logs')
+os.makedirs(LOG_DIR, exist_ok=True)
 # Logging configuration
 LOGGING = {
     'version': 1,
@@ -168,7 +171,7 @@ LOGGING = {
         'file': {
             'level': 'INFO',
             'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': BASE_DIR / 'logs/django.log',
+            'filename': LOG_DIR / 'django.log',
             'when': 'midnight',
             'backupCount': 30,
             'formatter': 'datetime',
@@ -176,7 +179,7 @@ LOGGING = {
         'task_file': {
             'level': 'INFO',
             'class': 'logging.handlers.TimedRotatingFileHandler',
-            'filename': BASE_DIR / 'logs/tasks.log',
+            'filename': LOG_DIR / 'tasks.log',
             'when': 'midnight',
             'backupCount': 30,
             'formatter': 'datetime',
