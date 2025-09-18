@@ -1,0 +1,60 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Database files
+*.sqlite3
+*.db
+
+# Log files
+logs/
+*.log
+
+# Environment variables
+.env
+
+# Docker related
+.docker/
+container_data/
+
+# Static and media files
+staticfiles/
+media/
+
+# IDE/Editor configuration
+
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Temporary files
+*.tmp
+*.temp
+
+# macOS specific
+.DS_Store
+
+# Windows specific
+Thumbs.db
+
+# Coverage reports
+htmlcov/
+.coverage
+.pytest_cache/
+
+
+# Celery related
+celerybeat-schedule
+celerybeat.pid
+
+
+

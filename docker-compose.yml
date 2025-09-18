@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  web:
+    # build: .
+    image: liuli01/job_admin:latest
+    restart: unless-stopped
+    container_name: taobao_verify
+    volumes:
+      - app:/app
+    ports:
+      - 8000:8000
+    environment:
+      - DB_ENGINE=django.db.backends.postgresql
+      - DB_NAME=postgres
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DEBUG=True
+      - ALLOWED_HOSTS=*
+      - Q_WORKERS=4
+      - Q_TIMEOUT=90
+      - Q_RETRY=120
+      - Q_QUEUE_LIMIT=50
+volumes:
+  app:
